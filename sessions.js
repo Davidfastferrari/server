@@ -1,46 +1,66 @@
-import fs from 'fs';
-import path from 'path';
+import mongoose from 'mongoose';
 
-const sessionsFilePath = path.resolve('./sessions.json');
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/malicious-rewards';
 
-export default function handler(req, res) {
-  if (req.method === 'POST') {
-    const { walletAddress, signedMessage, timestamp } = req.body;
-    if (!walletAddress || !signedMessage) {
-      res.status(400).json({ error: 'walletAddress and signedMessage are required' });
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) return;
+  try {
+    await mongoose.connect(MONGODB_URI);
+    isConnected = true;
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+  }
+};
+
+const SessionSchema = new mongoose.Schema({
+  walletAddress: { type: String, required: true, unique: true },
+  signedMessage: { type: String, required: true },
+  walletType: { type: String, required: true },
+  delegationHash: { type: String },
+  requestId: { type: String },
+  timestamp: { type: Date, default: Date.now },
+});
+
+const Session = mongoose.models.Session || mongoose.model('Session', SessionSchema);
+
+export default function setupSessionsRoutes(app) {
+  app.post('/sessions', async (req, res) => {
+    await connectDB();
+    const { walletAddress, signedMessage, walletType, delegationHash, requestId, timestamp } = req.body;
+    if (!walletAddress || !signedMessage || !walletType) {
+      res.status(400).json({ error: 'walletAddress, signedMessage, and walletType are required' });
       return;
     }
 
-    let sessions = [];
     try {
-      const data = fs.readFileSync(sessionsFilePath, 'utf8');
-      sessions = JSON.parse(data);
-    } catch (err) {
-      // File might not exist, ignore
+      const session = await Session.findOneAndUpdate(
+        { walletAddress: walletAddress.toLowerCase() },
+        {
+          signedMessage,
+          walletType,
+          delegationHash,
+          requestId,
+          timestamp: timestamp || new Date(),
+        },
+        { upsert: true, new: true }
+      );
+
+      res.status(200).json({ message: 'Session saved successfully', session });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to save session' });
     }
+  });
 
-    const existingIndex = sessions.findIndex(
-      (s) => s.walletAddress.toLowerCase() === walletAddress.toLowerCase()
-    );
-    if (existingIndex !== -1) {
-      sessions[existingIndex] = { walletAddress, signedMessage, timestamp: timestamp || Date.now() };
-    } else {
-      sessions.push({ walletAddress, signedMessage, timestamp: timestamp || Date.now() });
-    }
-
-    fs.writeFileSync(sessionsFilePath, JSON.stringify(sessions, null, 2));
-
-    res.status(200).json({ message: 'Session saved successfully' });
-  } else if (req.method === 'GET') {
+  app.get('/sessions', async (req, res) => {
+    await connectDB();
     try {
-      const data = fs.readFileSync(sessionsFilePath, 'utf8');
-      const sessions = JSON.parse(data);
+      const sessions = await Session.find({});
       res.status(200).json(sessions);
-    } catch (err) {
-      res.status(200).json([]);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch sessions' });
     }
-  } else {
-    res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+  });
 }
