@@ -4,9 +4,18 @@ import bcrypt from 'bcryptjs';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/malicious-rewards';
 
-if (!mongoose.connections[0].readyState) {
-  mongoose.connect(MONGODB_URI);
-}
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) return;
+  try {
+    await mongoose.connect(MONGODB_URI);
+    isConnected = true;
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+  }
+};
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -16,8 +25,9 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
+export default function setupAuthRoutes(app) {
+  app.post('/auth', async (req, res) => {
+    await connectDB();
     const { username, password } = req.body;
     if (!username || !password) {
       res.status(400).json({ error: 'Username and password are required' });
@@ -36,7 +46,10 @@ export default async function handler(req, res) {
     } catch (error) {
       res.status(500).json({ error: 'Authentication failed' });
     }
-  } else if (req.method === 'PUT') {
+  });
+
+  app.put('/auth', async (req, res) => {
+    await connectDB();
     // For registering a new user
     const { username, password } = req.body;
     if (!username || !password) {
@@ -52,8 +65,5 @@ export default async function handler(req, res) {
     } catch (error) {
       res.status(500).json({ error: 'Failed to create user' });
     }
-  } else {
-    res.setHeader('Allow', ['POST', 'PUT']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+  });
 }
