@@ -3,9 +3,18 @@ import jwt from 'jsonwebtoken';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/malicious-rewards';
 
-if (!mongoose.connections[0].readyState) {
-  mongoose.connect(MONGODB_URI);
-}
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) return;
+  try {
+    await mongoose.connect(MONGODB_URI);
+    isConnected = true;
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+  }
+};
 
 const SessionSchema = new mongoose.Schema({
   walletAddress: { type: String, required: true, unique: true },
@@ -30,8 +39,9 @@ function authenticateToken(req) {
   }
 }
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
+export default function setupExecuteRoutes(app) {
+  app.post('/execute', async (req, res) => {
+    await connectDB();
     const user = authenticateToken(req);
     if (!user) {
       res.status(401).json({ error: 'Unauthorized' });
@@ -52,7 +62,6 @@ export default async function handler(req, res) {
       }
 
       // Placeholder for transaction execution
-      // In a real implementation, use the session data to execute transactions via delegation
       console.log(`Executing ${action} for ${walletAddress} using ${session.walletType} wallet`);
       console.log('Session data:', session);
 
@@ -70,8 +79,5 @@ export default async function handler(req, res) {
     } catch (error) {
       res.status(500).json({ error: 'Failed to execute transaction' });
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+  });
 }
