@@ -1,25 +1,22 @@
 {
-  "name": "rewards-backend",
+  "name": "malicious-rewards-backend",
   "version": "1.0.0",
-  "description": "Backend for rewards dApp",
-  "main": "/sessions.js",
+  "description": "Backend API for malicious rewards dApp",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "next": "^14.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.0",
     "mongoose": "^8.0.0",
     "jsonwebtoken": "^9.0.0",
-    "bcryptjs": "^2.4.3",
-    "web3": "^4.0.0"
+    "bcryptjs": "^2.4.3"
   },
-  "devDependencies": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
 }
