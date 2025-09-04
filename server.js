@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import setupAuthRoutes from './pages/api/auth.js';
-import setupSessionsRoutes from './pages/api/sessions.js';
-import setupExecuteRoutes from './pages/api/execute.js';
+import setupAuthRoutes from './auth.js';
+import setupSessionsRoutes from './sessions.js';
+import setupExecuteRoutes from './execute.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
