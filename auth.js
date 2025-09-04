@@ -50,7 +50,6 @@ export default function setupAuthRoutes(app) {
 
   app.put('/auth', async (req, res) => {
     await connectDB();
-    // For registering a new user
     const { username, password } = req.body;
     if (!username || !password) {
       res.status(400).json({ error: 'Username and password are required' });
